@@ -65,14 +65,14 @@ choco install chocolateygui -y
 
 ### Installer
 
-- <img src="https://chromium.woolyss.com/logo.png" width="16px" height="16px"> [Chromium Stable](https://chromium.woolyss.com/#windows-64-bit-stable-nik) - All stable versions of Chromium made by third-party developers.
-- <img src="https://a.fsdn.com/allura/p/mpcbe/icon?1548646911?&w=90" width="16px" height="16px"> [MPC-BE](https://sourceforge.net/projects/mpcbe/) - A free and open source audio and video player for Windows.
-- <img src="https://notepad-plus-plus.org/assets/images/favicon.ico" width="16px" height="16px"> [Notepad++](https://notepad-plus-plus.org/download/v7.6.2.html) - An open source code editor.
-- <img src="https://www.foobar2000.org/favicon.ico" width="16px" height="16px"> [foobar2000](https://www.foobar2000.org/download) - An advanced lightweight audio player.
-- <img src="http://s2.googleusercontent.com/s2/favicons?domain_url=https://www.internetdownloadmanager.com/" width="16px" height="16px"> [Internet Download Manager](https://www.internetdownloadmanager.com/download.html) - Fully featured download manager.
-- <img src="https://raw.githubusercontent.com/henrypp/simplewall/master/src/res/100.ico" height="16px"> [Simplewall](https://github.com/henrypp/simplewall/releases) - A simple open source filewall solution.
-- <img src="http://s2.googleusercontent.com/s2/favicons?domain_url=https://www.autohotkey.com" width="16px" height="16px"> [AutoHotKey](https://www.autohotkey.com/download/) - Compile and run .ahk automation script on Windows.
-- <img src="http://s2.googleusercontent.com/s2/favicons?domain_url=https://store.steampowered.com" width="16px" height="16px"> [Steam](https://store.steampowered.com/about/) - Because I play dota2 and csgo and nothing else.
+- <img src="https://chromium.woolyss.com/logo.png" width="16px" height="16px"> [Chromium Stable](https://chromium.woolyss.com/#windows-64-bit-stable-nik "C:\\> choco install chromium") - All stable versions of Chromium made by third-party developers.
+- <img src="https://a.fsdn.com/allura/p/mpcbe/icon?1548646911?&w=90" width="16px" height="16px"> [MPC-BE](https://sourceforge.net/projects/mpcbe/ "C:\\> choco install mpc-be") - A free and open source audio and video player for Windows.
+- <img src="https://notepad-plus-plus.org/assets/images/favicon.ico" width="16px" height="16px"> [Notepad++](https://notepad-plus-plus.org/download/v7.6.2.html "C:\\> choco install notepadplusplus") - An open source code editor.
+- <img src="https://www.foobar2000.org/favicon.ico" width="16px" height="16px"> [foobar2000](https://www.foobar2000.org/download "C:\\> choco install foobar2000") - An advanced lightweight audio player.
+- <img src="http://s2.googleusercontent.com/s2/favicons?domain_url=https://www.internetdownloadmanager.com/" width="16px" height="16px"> [Internet Download Manager](https://www.internetdownloadmanager.com/download.html "") - Fully featured download manager.
+- <img src="https://raw.githubusercontent.com/henrypp/simplewall/master/src/res/100.ico" height="16px"> [Simplewall](https://github.com/henrypp/simplewall/releases "C:\\> choco install simplewall") - A simple open source filewall solution.
+- <img src="http://s2.googleusercontent.com/s2/favicons?domain_url=https://www.autohotkey.com" width="16px" height="16px"> [AutoHotKey](https://www.autohotkey.com/download/ "C:\\> choco install autohotkey") - Compile and run .ahk automation script on Windows.
+- <img src="http://s2.googleusercontent.com/s2/favicons?domain_url=https://store.steampowered.com" width="16px" height="16px"> [Steam](https://store.steampowered.com/about/ "C:\\> choco install steam") - Because I play dota2 and csgo and nothing else.
 
 ### Portable
 
