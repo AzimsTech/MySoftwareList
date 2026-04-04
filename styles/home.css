@@ -200,11 +200,38 @@ footer a:hover {
 
 /* Automatic dark mode */
 @media (prefers-color-scheme: dark) {
-  html, img, video, iframe, header, .btn {
-    filter: invert(1);
-  }
-  
   body {
-    background-color: #e7e5e4;
+    background-color: #181a1b;
+    color: #e8e6e3;
+  }
+
+  .input-group {
+    color: #e8e6e3;
+  }
+
+  .command-input {
+    background-color: #242526;
+    color: #e8e6e3;
+    border: 1px solid #3a3f44;
+  }
+
+  .package-list-item .package-list-label {
+    background: #242526;
+  }
+
+  .package-list-label:hover {
+    background: #323538;
+  }
+
+  .package-list-label:active {
+    outline: 2px solid #5a94c2;
+  }
+
+  footer a {
+    color: #4db6ac; /* Lighter teal for better contrast on dark backgrounds */
+  }
+
+  .top-button:hover {
+    background-color: #1e629c; /* Darker hover effect */
   }
 }
