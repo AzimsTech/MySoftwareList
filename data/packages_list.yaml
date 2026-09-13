@@ -13,6 +13,7 @@ MPC-BE.MPC-BE:
 Microsoft.VisualStudioCode:
   name: Visual Studio Code
   icoUrl: vscode.1.65.2.png
+  scope: machine
   description: Advanced code editor with IntelliSense.
 GitHub.GitHubDesktop:
   name: GitHub Desktop

@@ -154,10 +154,11 @@ function updateCommand() {
         const id = cb.value;
         const li = cb.closest('.package-list-item');
         const toggles = li.querySelectorAll('.toggle-switch input');
-        const isSilent = toggles[0]?.checked || false;
-        const isUser = toggles[1]?.checked || false;
-        let cmd = `winget install --id ${id} --scope ${isUser ? 'user' : 'machine'}`;
-        if (!isSilent) cmd += ' -i';
+        const isInteractive = toggles[0]?.checked || false;
+        const pkgScope = yamlData[id]?.scope;
+        let cmd = `winget install --id ${id}`;
+        if (pkgScope) cmd += ` --scope ${pkgScope}`;
+        if (isInteractive) cmd += ' -i';
         return cmd;
     });
 
@@ -216,17 +217,10 @@ function populatePackageList(packages) {
                 <span class="package-list-label-text">
                     <b>${pkg.name}</b> — ${pkg.description}
                 </span>
-                <div class="toggle-wrapper">
-                    <span class="toggle-label">Silent</span>
+                <div class="toggle-wrapper" title="Runs the installer in interactive mode. The default experience shows installer progress.">
+                    <span class="toggle-label">Interactive</span>
                     <label class="toggle-switch">
-                        <input type="checkbox" id="interactive-${packageName}" name="interactive-${packageName}" ${savedState.silent ? 'checked' : ''}>
-                        <span class="toggle-slider"></span>
-                    </label>
-                </div>
-                <div class="toggle-wrapper">
-                    <span class="toggle-label">User</span>
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="scope-${packageName}" name="scope-${packageName}" ${savedState.user ? 'checked' : ''}>
+                        <input type="checkbox" id="interactive-${packageName}" name="interactive-${packageName}" ${savedState.interactive ? 'checked' : ''}>
                         <span class="toggle-slider"></span>
                     </label>
                 </div>
@@ -235,20 +229,14 @@ function populatePackageList(packages) {
 
         const checkbox = li.querySelector('input[type="checkbox"]');
         const interactiveToggle = li.querySelectorAll('.toggle-switch input')[0];
-        const scopeToggle = li.querySelectorAll('.toggle-switch input')[1];
         
         checkbox.addEventListener('change', () => {
             updateCommand();
             updateSelectedCount();
         });
 
-        scopeToggle.addEventListener('change', () => {
-            saveToggleState(packageName, interactiveToggle.checked, scopeToggle.checked);
-            updateCommand();
-        });
-
         interactiveToggle.addEventListener('change', () => {
-            saveToggleState(packageName, interactiveToggle.checked, scopeToggle.checked);
+            saveToggleState(packageName, interactiveToggle.checked);
             updateCommand();
         });
 
@@ -289,13 +277,12 @@ async function fetchYamlData(url) {
 function getToggleState(packageName) {
     const states = JSON.parse(localStorage.getItem('toggleStates') || '{}');
     return {
-        silent: states[packageName]?.silent ?? true,
-        user: states[packageName]?.user ?? true
+        interactive: states[packageName]?.interactive ?? true,
     };
 }
 
-function saveToggleState(packageName, silent, user) {
+function saveToggleState(packageName, interactive) {
     const states = JSON.parse(localStorage.getItem('toggleStates') || '{}');
-    states[packageName] = { silent, user };
+    states[packageName] = { interactive };
     localStorage.setItem('toggleStates', JSON.stringify(states));
 }
