@@ -161,7 +161,7 @@ function updateCommand() {
         return cmd;
     });
 
-    commandInputElement.value = commands.join(' && ');
+    commandInputElement.value = commands.join('; ');
 }
 
 function updateSelectedCount() {
