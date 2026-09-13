@@ -276,9 +276,10 @@ async function fetchYamlData(url) {
 // Toggle State Persistence
 function getToggleState(packageName) {
     const states = JSON.parse(localStorage.getItem('toggleStates') || '{}');
-    return {
-        interactive: states[packageName]?.interactive ?? true,
-    };
+    if (states[packageName]?.interactive !== undefined) {
+        return { interactive: states[packageName].interactive };
+    }
+    return { interactive: yamlData[packageName]?.interactive ?? false };
 }
 
 function saveToggleState(packageName, interactive) {

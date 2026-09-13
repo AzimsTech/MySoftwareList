@@ -14,6 +14,7 @@ Microsoft.VisualStudioCode:
   name: Visual Studio Code
   icoUrl: vscode.1.65.2.png
   scope: machine
+  interactive: true
   description: Advanced code editor with IntelliSense.
 GitHub.GitHubDesktop:
   name: GitHub Desktop
@@ -22,6 +23,7 @@ GitHub.GitHubDesktop:
 Git.Git:
   name: Git
   icoUrl: git.2.34.1.svg
+  interactive: true
   description: Version control for developers.
 Python.PythonInstallManager:
   name: Python Install Manager
