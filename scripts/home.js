@@ -13,7 +13,7 @@ const themeIcon = document.getElementById('themeIcon');
 const toastElement = document.getElementById('toast');
 
 // Constants
-const yamlFilePath = 'https://api.github.com/gists/f79a94082c09c3d68007d498a68a7f11';
+const yamlFilePath = './data/packages_list.yaml';
 const chocolateyInstallCommand = `Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1')); `;
 const iconSourcePath = 'images/packageimages/';
 
@@ -244,9 +244,7 @@ async function fetchYamlData(url) {
     try {
         const response = await fetch(url);
         const yamlText = await response.text();
-        const gistData = jsyaml.load(yamlText);
-        const yamlContent = gistData.files['packages_list.yaml'].content;
-        return jsyaml.load(yamlContent);
+        return jsyaml.load(yamlText);
     } catch (error) {
         console.error('Error fetching YAML:', error);
         showToast('Failed to load packages');

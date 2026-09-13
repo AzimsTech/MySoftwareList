@@ -1,0 +1,172 @@
+choco:
+  name: Chocolatey
+  icoUrl: chocolatey.2.3.0.png
+  description: Install this if this is your first time.
+chocolateygui:
+  name: Chocolatey GUI
+  icoUrl: chocolatey.2.3.0.png
+  description: The offical Chocolatey user graphical interface app
+googlechrome:
+  name: Google Chrome
+  icoUrl: GoogleChrome.126.0.6478.62.svg
+  description: The most widely used Web browser.
+powershell-core:
+  name: PowerShell 7
+  icoUrl: pwsh.7.3.6.png
+  description: Enhanced cross-platform edition of PowerShell.
+mpc-be:
+  name: MPC-BE
+  icoUrl: mpc-be.1.7.2.png
+  description: A free and open source audio and video player for Windows
+vscode:
+  name: Visual Studio Code
+  icoUrl: vscode.1.65.2.png
+  description: An advanced code editor with IntelliSense.
+github-desktop:
+  name: GitHub Desktop
+  icoUrl: github-desktop.3.4.1.png
+  description: The Official desktop GitHub client.
+git:
+  name: Git
+  icoUrl: git.2.34.1.svg
+  description: Git version control software for developers.
+python:
+  name: Python
+  icoUrl: python.3.10.2.svg
+  description: Install current version of Python (Python3)
+foobar2000:
+  name: Foobar2000
+  icoUrl: foobar2000.2.1.5.png
+  description: An advanced lightweight audio player.
+internet-download-manager:
+  name: Internet Download Manager
+  icoUrl: internet-download-manager.6.42.11.png
+  description: Fully featured download manager.
+simplewall:
+  name: Simplewall
+  icoUrl: simplewall.3.6.1.png
+  description: A simple open source filewall solution.
+taskbarx:
+  name: TaskbarX
+  icoUrl: taskbarx.1.7.3.0.png
+  description: Customize taskbar icon position to the center + cool animations.
+autohotkey:
+  name: AutoHotkey
+  icoUrl: autohotkey.1.1.33.10.png
+  description: Compile and run .ahk automation script on Windows.
+steam:
+  name: Steam
+  icoUrl: steam.2.10.91.91221129.png
+  description: Because I play dota2 and csgo and nothing else.
+powertoys:
+  name: Microsoft PowerToys
+  icoUrl: powertoys.0.81.1.png
+  description: Windows system utilities by Microsoft. I use FancyZone feature a lot.
+temurinjre:
+  name: Temurin JRE
+  icoUrl: Temurin.21.0.3.9.png
+  description: Prebuilt OpenJDK binaries maintained by community.
+everything:
+  name: Everything
+  icoUrl: Everything.1.4.11015.png
+  description: A simple and fast file search utility.
+everythingtoolbar:
+  name: Everything Toolbar
+  icoUrl: Everything.1.4.11015.png
+  description: Everything integration for the Windows taskbar.
+bleachbit:
+  name: BleachBit
+  icoUrl: bleachbit.4.6.0.svg
+  description: A good opensource alternative to CCleaner.
+easy7zip:
+  name: "Easy 7-Zip"
+  icoUrl: "7zip.21.6.svg"
+  description: "A fork of 7-Zip with a few additional quality-of-life features."
+gpu-z:
+  name: "GPU-Z"
+  icoUrl: gpu-z.2.59.0.png
+  description: "Give you all information about your GPU."
+rapr:
+  name: "Driver Store Explorer [RAPR]"
+  icoUrl: rapr.0.11.92.png
+  description: "Windows update managemetn tool for windows 10."
+shutup10:
+  name: "O&O ShutUp10++"
+  icoUrl: shutup10.1.9.1438.png
+  description: "Block spying and tracking on Windows."
+sysinternals:
+  name: "Sysinternals"
+  icoUrl: sysinternals.2024.5.28.png
+  description: "A collection of ystem utilities build by Microsoft."
+spacesniffer:
+  name: "SpaceSniffer"
+  icoUrl: "spacesniffer.1.3.0.2.png"
+  description: "Finds the files and folders using the most disk space on your hard drive."
+ddu:
+  name: "Display Driver Uninstaller"
+  icoUrl: "ddu.18.0.4.6.png"
+  description: "A driver removal utility that can help you completely uninstall AMD/NVIDIA graphics card drivers and packages from your system."
+sharex:
+  name: "ShareX"
+  icoUrl: "sharex.13.6.1.png"
+  description: "A very powerful open source screen capture program."
+hwinfo:
+  name: "HWiNFO"
+  icoUrl: "HWiNFO32.4.18.1930.1.png"
+  description: "A comprehensive hardware monitoring program."
+crystaldiskinfo:
+  name: "CrystalDiskInfo"
+  icoUrl: "crystaldiskinfo.8.14.2.png"
+  description: "S.M.A.R.T HDD/SSD utility."
+windows-repair-toolbox:
+  name: "Windows Repair Toolbox"
+  icoUrl: "windows-repair-toolbox.3.0.2.5.png"
+  description: "(Almost) everything you need to repair Windows problems in one small handy tool."
+rufus:
+  name: "Rufus"
+  icoUrl: "rufus.3.17.png"
+  description: "A simple tool for creating bootable USB."
+ventoy:
+  name: "Ventoy"
+  icoUrl: ventoy.1.0.99.png
+  description: "A new way of making bootable USB drive."
+autoruns:
+  name: "AutoRuns"
+  icoUrl: AutoRuns.14.11.0.png
+  description: "Shows you what programs are configured to run during system bootup."
+dismplusplus:
+  name: "Dism++"
+  icoUrl: "dismplusplus.10.1.1002.1.png"
+  description: "A powerful tool for managing Windows."
+sharpkeys:
+  name: "SharpKeys"
+  icoUrl: chocolatey.2.3.0.png
+  description: "A simple tool to remap keys on Windows."
+youtube-downloader:
+  name: "YoutubeDownloader"
+  icoUrl: "youtube-downloader.1.3.1.png"
+  description: "An excellent desktop frontend for youtube-dl."
+fab:
+  name: "Firewall App Blocker (Fab)"
+  icoUrl: fab.1.9.png
+  description: "Easy-to-use firewall management sofware by Sordum."
+yt-dlp:
+  name: "YT-DLP"
+  icoUrl: "yt-dlp.2023.11.14.png"
+  description: "A youtube-dl fork with additional features and fixes"
+ffmpeg:
+  name: "FFmpeg"
+  icoUrl: "ffmpeg.6.1.0.svg"
+  description: "A cli tool for video and audio manipulation."
+scrcpy:
+  name: "scrcpy"
+  icoUrl: chocolatey.2.3.0.png
+  description: "Mirror & control Android on computer via ADB"
+adb:
+  name: "ADB"
+  icoUrl: "adb.34.0.1.20230514.png"
+  description: "Android Debug Bridge (adb) cli tool for android device."
+; choco install reflect-free --version 7.3.6391; choco pin add -n reflect-free:
+  name: "Macrium Reflect 7 Free"
+  icoUrl: "reflect-free.8.0.7279.png"
+  description: "Drive cloner. The final version of Reflect 7, which has unlimited free use."
