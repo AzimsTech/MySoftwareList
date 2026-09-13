@@ -89,12 +89,14 @@ body {
   font-weight: 700;
   letter-spacing: -0.025em;
   color: #ffffff;
+  text-shadow: 1px 1px 2px rgba(0,0,0,.25);
 }
 
 .sub-heading {
   font-size: 0.8rem;
   font-weight: 400;
-  color: rgba(255,255,255,0.8);
+  color: #999;
+  text-shadow: 1px 1px 1px rgba(0,0,0,.25);
 }
 
 /* Theme Toggle */
@@ -408,7 +410,7 @@ body {
 }
 
 .package-list-label-text b {
-  font-weight: 600;
+  font-weight: 800;
   color: var(--text-primary);
 }
 
@@ -494,9 +496,14 @@ body {
 .footer {
   text-align: center;
   padding: 1.25rem 1rem;
-  border-top: 1px solid var(--border);
+  border-top: none;
   color: var(--text-secondary);
   font-size: 0.8rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 10'%3E%3Cpath d='M0,5 Q10,0 20,5 T40,5 T60,5 T80,5' stroke='%23234863' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-position: top;
+  background-size: 80px 10px;
+  padding-top: 1.75rem;
 }
 
 .footer a {
