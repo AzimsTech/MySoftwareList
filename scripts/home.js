@@ -144,13 +144,20 @@ function getSelectedPackages() {
 }
 
 function updateCommand() {
-    const selectedPackages = getSelectedPackages();
-    
-    if (selectedPackages.length === 0) {
+    const checkboxes = packageListElement.querySelectorAll('input[type="checkbox"]:checked');
+    if (checkboxes.length === 0) {
         commandInputElement.value = '';
-    } else {
-        commandInputElement.value = `winget install --id ${selectedPackages.join(' --id ')}`;
+        return;
     }
+
+    const commands = Array.from(checkboxes).map(cb => {
+        const id = cb.value;
+        const toggle = document.getElementById(`interactive-${id}`);
+        const isInteractive = toggle?.checked || false;
+        return `winget install --id ${id}${isInteractive ? ' -i' : ''}`;
+    });
+
+    commandInputElement.value = commands.join(' && ');
 }
 
 function updateSelectedCount() {
@@ -204,13 +211,26 @@ function populatePackageList(packages) {
                 <span class="package-list-label-text">
                     <b>${pkg.name}</b> — ${pkg.description}
                 </span>
+                <div class="toggle-wrapper">
+                    <span class="toggle-label">Interactive</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="interactive-${packageName}" name="interactive-${packageName}">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
             </label>
         `;
 
         const checkbox = li.querySelector('input[type="checkbox"]');
+        const toggle = li.querySelector('.toggle-switch input');
+        
         checkbox.addEventListener('change', () => {
             updateCommand();
             updateSelectedCount();
+        });
+
+        toggle.addEventListener('change', () => {
+            updateCommand();
         });
 
         packageListElement.appendChild(li);
