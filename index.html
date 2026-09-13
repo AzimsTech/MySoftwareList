@@ -2,39 +2,89 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="color-scheme" content="dark light">
-    <link rel="shortcut icon" type="image/x-icon" href="./images/favicon.ico?">
+    <meta name="description" content="Select and install multiple Chocolatey packages with one command">
+    <link rel="shortcut icon" type="image/x-icon" href="./images/favicon.ico">
     <title>My Software List</title>
     <link rel="stylesheet" href="./styles/home.css">
 </head>
 <body>
+    <a href="#main" class="skip-link">Skip to main content</a>
+    
+    <button class="theme-toggle" aria-label="Toggle dark mode" id="themeToggle">
+        <span id="themeIcon">🌙</span>
+    </button>
+
     <header class="header">
-        <h2 class="heading">My Software List</h2>
-        <hr class="divider">
-        <h3 class="sub-heading">Install multiple softwares with one command</h3>
+        <div class="header-content">
+            <h1 class="heading">My Software List</h1>
+            <p class="sub-heading">Select apps and install them with one Chocolatey command</p>
+        </div>
     </header>
-    <main class="main">
+
+    <main class="main" id="main">
         <form class="package-form">
-            <div class="input-group">
-                <input class="command-input" type="text" readonly>
-                <button class="btn select-all-button" type="reset">All</button>
-                <button class="btn copy-button">Copy</button>
-                <button class="btn reset-button" type="reset">Reset</button>
+            <div class="controls">
+                <div class="search-wrapper">
+                    <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="text" class="search-input" id="searchInput" placeholder="Search packages..." autocomplete="off">
+                </div>
+                <div class="input-group">
+                    <input class="command-input" type="text" readonly id="commandInput" placeholder="Selected packages will appear here...">
+                    <button class="btn btn-secondary" type="button" id="selectAllBtn">Select All</button>
+                    <button class="btn btn-primary" type="button" id="copyBtn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                        Copy
+                    </button>
+                    <button class="btn btn-secondary" type="reset" id="resetBtn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="1 4 1 10 7 10"></polyline>
+                            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+                        </svg>
+                        Reset
+                    </button>
+                </div>
             </div>
-            <div class="list">
-                <ul class="package-list"></ul>
+
+            <div class="stats-bar">
+                <span class="selected-count"><span id="selectedCount">0</span> packages selected</span>
+                <span id="totalPackages"></span>
             </div>
+
+            <ul class="package-list" id="packageList">
+                <li class="skeleton" aria-hidden="true"></li>
+                <li class="skeleton" aria-hidden="true"></li>
+                <li class="skeleton" aria-hidden="true"></li>
+                <li class="skeleton" aria-hidden="true"></li>
+                <li class="skeleton" aria-hidden="true"></li>
+            </ul>
         </form>
-        <button class="btn top-button"><a href="#top" style="color: white">⬆ Jump to Top</a></button>
+
+        <button class="scroll-top" id="scrollTopBtn" aria-label="Scroll to top">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="18 15 12 9 6 15"></polyline>
+            </svg>
+        </button>
     </main>
+
+    <div class="toast" id="toast"></div>
+
     <footer class="footer">
-        <p>View Source: <a href="http://github.com/AzimsTech/MySoftwareList" target="_blank">AzimsTech/MySoftwareList</a></p>
-        <p> | </p>
-        <p>Read More: <a href="https://azimstech.github.io/posts/what-is-chocolatey/" target="_blank">What is Chocolatey?</a></p>
+        <div class="footer-content">
+            <span>View Source: <a href="https://github.com/AzimsTech/MySoftwareList" target="_blank" rel="noopener">AzimsTech/MySoftwareList</a></span>
+            <span>·</span>
+            <span>Read More: <a href="https://azimstech.github.io/posts/what-is-chocolatey/" target="_blank" rel="noopener">What is Chocolatey?</a></span>
+        </div>
     </footer>
-    <script src="./scripts/home.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+    <script src="./scripts/home.js"></script>
 </body>
 </html>

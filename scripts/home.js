@@ -1,138 +1,255 @@
-/*
-    GLOBAL VARIABLES
--------------------*/
-const packageListElement = document.querySelector(".package-list");
-const commandInputElement = document.querySelector(".command-input");
-const statusMessageElement = document.querySelector('.sub-heading');
-const resetButtonElement = document.querySelector('.reset-button');
-const copyButtonElement = document.querySelector(".copy-button");
-const selectAllButtonElement = document.querySelector(".select-all-button");
-const packageFormElement = document.querySelector(".package-form");
-const yamlFilePath = "https://api.github.com/gists/f79a94082c09c3d68007d498a68a7f11";
-const chocolateyInstallCommand =  `Set-ExecutionPolicy Bypass -Scope Process -Force; 
-[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; 
-iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1')); `;
-const iconSourcePath = "images/packageimages/";
+// DOM Elements
+const packageListElement = document.getElementById('packageList');
+const commandInputElement = document.getElementById('commandInput');
+const searchInputElement = document.getElementById('searchInput');
+const copyButtonElement = document.getElementById('copyBtn');
+const resetButtonElement = document.getElementById('resetBtn');
+const selectAllButtonElement = document.getElementById('selectAllBtn');
+const selectedCountElement = document.getElementById('selectedCount');
+const totalPackagesElement = document.getElementById('totalPackages');
+const scrollTopButton = document.getElementById('scrollTopBtn');
+const themeToggle = document.getElementById('themeToggle');
+const themeIcon = document.getElementById('themeIcon');
+const toastElement = document.getElementById('toast');
+
+// Constants
+const yamlFilePath = 'https://api.github.com/gists/f79a94082c09c3d68007d498a68a7f11';
+const chocolateyInstallCommand = `Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1')); `;
+const iconSourcePath = 'images/packageimages/';
 
 let yamlData = null;
+let allPackages = [];
 
-/*
-    EVENT LISTENERS
-----------------------*/
-document.addEventListener("DOMContentLoaded", () => {
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+    initTheme();
     fetchYamlData(yamlFilePath).then(data => {
         yamlData = data;
-        populatePackageList(packageListElement);
+        allPackages = Object.keys(data);
+        populatePackageList(allPackages);
+        totalPackagesElement.textContent = `${allPackages.length} packages available`;
     });
 
-    resetButtonElement.addEventListener('click', resetForm);
-    copyButtonElement.addEventListener("click", copyToClipboard);
-    selectAllButtonElement.addEventListener("click", selectAllPackages);
-    packageFormElement.addEventListener('change', onPackageSelectionChange);
+    eventListeners();
 });
 
-/*
-    FUNCTIONS
------------------*/
-// reset form & clear status message
-function resetForm(e) {
-    e.preventDefault();
-    packageFormElement.reset(); //reset form
-    statusMessageElement.style.visibility = 'initial';
-    statusMessageElement.innerText = "Generate chocolatey commands from the apps you've picked";
-    commandInputElement.value = null;
+// Event Listeners
+function eventListeners() {
+    resetButtonElement.addEventListener('click', resetForm);
+    copyButtonElement.addEventListener('click', copyToClipboard);
+    selectAllButtonElement.addEventListener('click', selectAllPackages);
+    searchInputElement.addEventListener('input', debounce(filterPackages, 200));
+    scrollTopButton.addEventListener('click', scrollToTop);
+    themeToggle.addEventListener('click', toggleTheme);
+
+    window.addEventListener('scroll', () => {
+        scrollTopButton.classList.toggle('visible', window.scrollY > 300);
+    });
 }
 
-// copy command from textbox to the clipboard
+// Theme Management
+function initTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        themeIcon.textContent = '☀️';
+    }
+}
+
+function toggleTheme() {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    
+    if (isDark) {
+        document.documentElement.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'light');
+        themeIcon.textContent = '🌙';
+    } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+        themeIcon.textContent = '☀️';
+    }
+
+    document.querySelectorAll('.label-checkbox').forEach(cb => {
+        cb.style.display = 'none';
+        cb.offsetHeight;
+        cb.style.display = '';
+    });
+}
+
+// Toast Notification
+function showToast(message, duration = 2500) {
+    toastElement.textContent = message;
+    toastElement.classList.add('show');
+    
+    setTimeout(() => {
+        toastElement.classList.remove('show');
+    }, duration);
+}
+
+// Form Functions
+function resetForm(e) {
+    e.preventDefault();
+    packageListElement.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+        cb.checked = false;
+    });
+    commandInputElement.value = '';
+    searchInputElement.value = '';
+    updateSelectedCount();
+    populatePackageList(allPackages);
+    showToast('Selection cleared');
+}
+
 function copyToClipboard(e) {
     e.preventDefault();
 
-    let selectedPackage = document.querySelector('input[name="package-item"]:checked');
-
-    if (selectedPackage) {
-        commandInputElement.select();
-        document.execCommand('copy');
-        statusMessageElement.innerText = "Copied to the clipboard! ✅";
-        statusMessageElement.style.visibility = 'initial';
+    const checkedPackages = getSelectedPackages();
+    
+    if (checkedPackages.length > 0) {
+        navigator.clipboard.writeText(commandInputElement.value).then(() => {
+            showToast('Copied to clipboard!');
+        }).catch(() => {
+            commandInputElement.select();
+            document.execCommand('copy');
+            showToast('Copied to clipboard!');
+        });
     } else {
-        statusMessageElement.innerText = "Please select any packages! ❎";
-        statusMessageElement.style.visibility = 'initial';
+        showToast('Please select packages first');
     }
 }
 
-// select all item checkboxes
 function selectAllPackages(e) {
     e.preventDefault();
 
-    let checkboxes = document.querySelectorAll("input[type=checkbox][name=package-item]");
+    const checkboxes = packageListElement.querySelectorAll('input[type="checkbox"]');
+    const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+    
     checkboxes.forEach(checkbox => {
-        if (!checkbox.checked) {
-            checkbox.click();
+        if (allChecked) {
+            checkbox.checked = false;
+        } else if (!checkbox.checked && checkbox.offsetParent !== null) {
+            checkbox.checked = true;
         }
     });
+
+    updateCommand();
+    updateSelectedCount();
+    showToast(allChecked ? 'All deselected' : 'All selected');
 }
 
-// generate chocolatey install commands from checkbox input
-function onPackageSelectionChange(e) {
-    e.preventDefault();
+function getSelectedPackages() {
+    const checkboxes = packageListElement.querySelectorAll('input[type="checkbox"]:checked');
+    return Array.from(checkboxes).map(cb => cb.value);
+}
 
-    let checkboxes = document.querySelectorAll("input[type=checkbox][name=package-item]");
-    let selectedPackages = Array.from(checkboxes)
-                        .filter(checkbox => checkbox.checked)
-                        .map(checkbox => checkbox.value);
-
-    statusMessageElement.innerText = "Press 'Copy' button when you are ready.";
-    statusMessageElement.style.visibility = 'initial';
-
-    if (checkboxes[0].checked) {
-        commandInputElement.value = chocolateyInstallCommand;
-        if (selectedPackages.length > 1) {
-            selectedPackages.shift();
-            commandInputElement.value = chocolateyInstallCommand + `choco install -y ${selectedPackages.join(" ")}`;
+function updateCommand() {
+    const selectedPackages = getSelectedPackages();
+    
+    if (selectedPackages.length === 0) {
+        commandInputElement.value = '';
+    } else if (selectedPackages[0] === 'chocolatey') {
+        if (selectedPackages.length === 1) {
+            commandInputElement.value = chocolateyInstallCommand;
+        } else {
+            commandInputElement.value = chocolateyInstallCommand + `choco install -y ${selectedPackages.slice(1).join(' ')}`;
         }
     } else {
-        commandInputElement.value = `choco install -y ${selectedPackages.join(" ")}`;
+        commandInputElement.value = `choco install -y ${selectedPackages.join(' ')}`;
     }
 }
 
-// load packages data from a YAML file
-async function fetchYamlData(yamlFilePath) {
-    let response = await fetch(yamlFilePath);
-    let yamlText = await response.text();
-    let gistData = jsyaml.load(yamlText); // use jsyaml.load() instead of yaml.safeLoad()
-    let yamlContent = gistData.files["packages_list.yaml"].content;
-    return jsyaml.load(yamlContent);
+function updateSelectedCount() {
+    const count = getSelectedPackages().length;
+    selectedCountElement.textContent = count;
 }
 
-// write a list from yamlData
-function populatePackageList(ulElement) {
-    for (let packageName in yamlData) {
-        let labelElement = document.createElement("label");
-        let inputElement = document.createElement("input");
-        let spanElement = document.createElement("span");
-        let imgElement = document.createElement("img");
-        let listItemElement = document.createElement("li");
+// Search & Filter
+function filterPackages() {
+    const query = searchInputElement.value.toLowerCase().trim();
+    
+    if (!query) {
+        populatePackageList(allPackages);
+        return;
+    }
 
-        labelElement.htmlFor = packageName;
-        spanElement.className = "package-list-label-text";
-        labelElement.className = "package-list-label";
-        labelElement.title = yamlData[packageName].description;
+    const filtered = allPackages.filter(pkg => {
+        const name = yamlData[pkg].name.toLowerCase();
+        const desc = yamlData[pkg].description.toLowerCase();
+        return name.includes(query) || desc.includes(query);
+    });
 
-        inputElement.type = "checkbox";
-        inputElement.name = "package-item";
-        inputElement.className = "label-checkbox";
-        inputElement.value = packageName;
-        inputElement.id = packageName;
-        imgElement.src = iconSourcePath + yamlData[packageName].icoUrl;
-        imgElement.className = "icon-image";
-        spanElement.innerHTML = `<b>${yamlData[packageName].name}</b> - ${yamlData[packageName].description}`;
+    populatePackageList(filtered);
+}
 
-        listItemElement.className = "package-list-item";
+// Populate Package List
+function populatePackageList(packages) {
+    packageListElement.innerHTML = '';
+    
+    if (packages.length === 0) {
+        packageListElement.innerHTML = `
+            <li style="text-align: center; padding: 2rem; color: var(--text-muted);">
+                No packages found matching your search.
+            </li>
+        `;
+        return;
+    }
 
-        labelElement.appendChild(inputElement);
-        labelElement.appendChild(imgElement);
-        labelElement.appendChild(spanElement);
-        listItemElement.appendChild(labelElement);
-        ulElement.appendChild(listItemElement);
+    packages.forEach((packageName, index) => {
+        const pkg = yamlData[packageName];
+        const li = document.createElement('li');
+        li.className = 'package-list-item';
+        li.style.animationDelay = `${index * 0.02}s`;
+
+        const isChecked = document.querySelector(`input[name="package-item"][value="${packageName}"]`)?.checked || false;
+
+        li.innerHTML = `
+            <label class="package-list-label" for="${packageName}" title="${pkg.description}">
+                <input type="checkbox" name="package-item" value="${packageName}" id="${packageName}" class="label-checkbox" ${isChecked ? 'checked' : ''}>
+                <img src="${iconSourcePath}${pkg.icoUrl}" alt="" class="icon-image" loading="lazy" onerror="this.style.display='none'">
+                <span class="package-list-label-text">
+                    <b>${pkg.name}</b> — ${pkg.description}
+                </span>
+            </label>
+        `;
+
+        const checkbox = li.querySelector('input[type="checkbox"]');
+        checkbox.addEventListener('change', () => {
+            updateCommand();
+            updateSelectedCount();
+        });
+
+        packageListElement.appendChild(li);
+    });
+
+    updateSelectedCount();
+}
+
+// Scroll to Top
+function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Utility: Debounce
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), wait);
+    };
+}
+
+// Fetch YAML Data
+async function fetchYamlData(url) {
+    try {
+        const response = await fetch(url);
+        const yamlText = await response.text();
+        const gistData = jsyaml.load(yamlText);
+        const yamlContent = gistData.files['packages_list.yaml'].content;
+        return jsyaml.load(yamlContent);
+    } catch (error) {
+        console.error('Error fetching YAML:', error);
+        showToast('Failed to load packages');
+        return {};
     }
 }
