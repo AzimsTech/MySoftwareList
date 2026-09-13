@@ -14,7 +14,7 @@ const toastElement = document.getElementById('toast');
 
 // Constants
 const yamlFilePath = './data/packages_list.yaml';
-const chocolateyInstallCommand = `Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1')); `;
+const wingetInstallCommand = `winget install --id `;
 const iconSourcePath = 'images/packageimages/';
 
 let yamlData = null;
@@ -148,14 +148,8 @@ function updateCommand() {
     
     if (selectedPackages.length === 0) {
         commandInputElement.value = '';
-    } else if (selectedPackages[0] === 'chocolatey') {
-        if (selectedPackages.length === 1) {
-            commandInputElement.value = chocolateyInstallCommand;
-        } else {
-            commandInputElement.value = chocolateyInstallCommand + `choco install -y ${selectedPackages.slice(1).join(' ')}`;
-        }
     } else {
-        commandInputElement.value = `choco install -y ${selectedPackages.join(' ')}`;
+        commandInputElement.value = `winget install --id ${selectedPackages.join(' --id ')}`;
     }
 }
 
