@@ -116,7 +116,7 @@ Ventoy.Ventoy:
   description: New way to make bootable USB.
 Microsoft.Sysinternals.Autoruns:
   name: "AutoRuns"
-  icoUrl: AutoRuns.14.11.0.png
+  icoUrl: AutoRuns.svg
   description: Startup program manager.
 ChuyuTeam.DISM++:
   name: "Dism++"
@@ -124,7 +124,7 @@ ChuyuTeam.DISM++:
   description: Windows management tool.
 RandyRants.SharpKeys:
   name: "SharpKeys"
-  icoUrl: chocolatey.2.3.0.png
+  icoUrl: sharpkeys.png
   description: Key remapper.
 ErrorFlynn.ytdlp-interface:
   name: "Ytdlp-interface"
