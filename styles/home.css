@@ -14,10 +14,14 @@
   --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
   --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
   --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
+  --radius-xs: 4px;
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 28px;
   --radius-full: 9999px;
+  --notch-radius: 32px;
   --transition: all 0.2s ease;
 }
 
@@ -66,9 +70,37 @@ body {
 .header {
   background: #234863;
   padding: 1rem 1.5rem;
-  position: sticky;
-  top: 0;
-  z-index: 100;
+  position: relative;
+  z-index: 1;
+}
+
+/* Two squares positioned right where header meets body,
+   extending DOWN into the body's space by --notch-radius. */
+.header::before,
+.header::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  width: var(--notch-radius);
+  height: var(--notch-radius);
+}
+
+.header::before {
+  left: 0;
+  background: radial-gradient(
+    circle at bottom right,
+    var(--bg-primary) 0 var(--notch-radius),
+    #234863 var(--notch-radius) 100%
+  );
+}
+
+.header::after {
+  right: 0;
+  background: radial-gradient(
+    circle at bottom left,
+    var(--bg-primary) 0 var(--notch-radius),
+    #234863 var(--notch-radius) 100%
+  );
 }
 
 [data-theme="dark"] .header {
@@ -101,7 +133,7 @@ body {
 
 /* Theme Toggle */
 .theme-toggle {
-  position: fixed;
+  position: absolute;
   top: 0.75rem;
   right: 0.75rem;
   width: 36px;
@@ -126,9 +158,16 @@ body {
 
 /* Main */
 .main {
+  width: 100%;
+  padding: 2rem 1.5rem 3rem;
+  background: var(--bg-primary);
+  position: relative;
+}
+
+/* Content Wrapper */
+.package-form {
   max-width: 900px;
   margin: 0 auto;
-  padding: 1rem 1.5rem 3rem;
 }
 
 /* Search & Filters */
@@ -156,7 +195,7 @@ body {
   width: 100%;
   padding: 0.625rem 1rem 0.625rem 2.5rem;
   border: 1px solid var(--border);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-2xl);
   background: var(--bg-secondary);
   color: var(--text-primary);
   font-size: 0.85rem;
@@ -201,7 +240,7 @@ body {
 /* Buttons */
 .btn {
   padding: 0.5rem 1rem;
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-xl);
   border: none;
   font-family: inherit;
   font-size: 0.8rem;
@@ -375,7 +414,7 @@ body {
   right: 0;
   bottom: 0;
   background: var(--border);
-  border-radius: 18px;
+  border-radius: 20px;
   transition: var(--transition);
 }
 
