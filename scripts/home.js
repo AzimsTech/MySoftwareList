@@ -122,7 +122,7 @@ function copyToClipboard(e) {
 function selectAllPackages(e) {
     e.preventDefault();
 
-    const checkboxes = packageListElement.querySelectorAll('input[type="checkbox"]');
+    const checkboxes = packageListElement.querySelectorAll('input.label-checkbox');
     const allChecked = Array.from(checkboxes).every(cb => cb.checked);
     
     checkboxes.forEach(checkbox => {
@@ -139,12 +139,12 @@ function selectAllPackages(e) {
 }
 
 function getSelectedPackages() {
-    const checkboxes = packageListElement.querySelectorAll('input[type="checkbox"]:checked');
+    const checkboxes = packageListElement.querySelectorAll('input.label-checkbox:checked');
     return Array.from(checkboxes).map(cb => cb.value);
 }
 
 function updateCommand() {
-    const checkboxes = packageListElement.querySelectorAll('input[type="checkbox"]:checked');
+    const checkboxes = packageListElement.querySelectorAll('input.label-checkbox:checked');
     if (checkboxes.length === 0) {
         commandInputElement.value = '';
         return;
@@ -152,9 +152,13 @@ function updateCommand() {
 
     const commands = Array.from(checkboxes).map(cb => {
         const id = cb.value;
-        const toggle = document.getElementById(`interactive-${id}`);
-        const isInteractive = toggle?.checked || false;
-        return `winget install --id ${id}${isInteractive ? ' -i' : ''}`;
+        const li = cb.closest('.package-list-item');
+        const toggles = li.querySelectorAll('.toggle-switch input');
+        const isSilent = toggles[0]?.checked || false;
+        const isUser = toggles[1]?.checked || false;
+        let cmd = `winget install --id ${id} --scope ${isUser ? 'user' : 'machine'}`;
+        if (!isSilent) cmd += ' -i';
+        return cmd;
     });
 
     commandInputElement.value = commands.join(' && ');
@@ -203,6 +207,7 @@ function populatePackageList(packages) {
         li.style.animationDelay = `${index * 0.02}s`;
 
         const isChecked = document.querySelector(`input[name="package-item"][value="${packageName}"]`)?.checked || false;
+        const savedState = getToggleState(packageName);
 
         li.innerHTML = `
             <label class="package-list-label" for="${packageName}" title="${pkg.description}">
@@ -212,9 +217,16 @@ function populatePackageList(packages) {
                     <b>${pkg.name}</b> — ${pkg.description}
                 </span>
                 <div class="toggle-wrapper">
-                    <span class="toggle-label">Interactive</span>
+                    <span class="toggle-label">Silent</span>
                     <label class="toggle-switch">
-                        <input type="checkbox" id="interactive-${packageName}" name="interactive-${packageName}">
+                        <input type="checkbox" id="interactive-${packageName}" name="interactive-${packageName}" ${savedState.silent ? 'checked' : ''}>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="toggle-wrapper">
+                    <span class="toggle-label">User</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="scope-${packageName}" name="scope-${packageName}" ${savedState.user ? 'checked' : ''}>
                         <span class="toggle-slider"></span>
                     </label>
                 </div>
@@ -222,14 +234,21 @@ function populatePackageList(packages) {
         `;
 
         const checkbox = li.querySelector('input[type="checkbox"]');
-        const toggle = li.querySelector('.toggle-switch input');
+        const interactiveToggle = li.querySelectorAll('.toggle-switch input')[0];
+        const scopeToggle = li.querySelectorAll('.toggle-switch input')[1];
         
         checkbox.addEventListener('change', () => {
             updateCommand();
             updateSelectedCount();
         });
 
-        toggle.addEventListener('change', () => {
+        scopeToggle.addEventListener('change', () => {
+            saveToggleState(packageName, interactiveToggle.checked, scopeToggle.checked);
+            updateCommand();
+        });
+
+        interactiveToggle.addEventListener('change', () => {
+            saveToggleState(packageName, interactiveToggle.checked, scopeToggle.checked);
             updateCommand();
         });
 
@@ -264,4 +283,19 @@ async function fetchYamlData(url) {
         showToast('Failed to load packages');
         return {};
     }
+}
+
+// Toggle State Persistence
+function getToggleState(packageName) {
+    const states = JSON.parse(localStorage.getItem('toggleStates') || '{}');
+    return {
+        silent: states[packageName]?.silent ?? true,
+        user: states[packageName]?.user ?? true
+    };
+}
+
+function saveToggleState(packageName, silent, user) {
+    const states = JSON.parse(localStorage.getItem('toggleStates') || '{}');
+    states[packageName] = { silent, user };
+    localStorage.setItem('toggleStates', JSON.stringify(states));
 }

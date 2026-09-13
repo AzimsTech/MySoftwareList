@@ -309,12 +309,12 @@ body {
   box-shadow: var(--shadow-sm);
 }
 
-.package-list-label:has(input:checked) {
+.package-list-label:has(input.label-checkbox:checked) {
   background: var(--accent-light);
   border-color: var(--accent);
 }
 
-.package-list-label:has(input:checked)::before {
+.package-list-label:has(input.label-checkbox:checked)::before {
   transform: scaleY(1);
 }
 
