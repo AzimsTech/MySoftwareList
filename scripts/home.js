@@ -216,7 +216,7 @@ function populatePackageList(packages) {
         li.innerHTML = `
             <label class="package-list-label" for="${packageName}" title="${pkg.description}">
                 <input type="checkbox" name="package-item" value="${packageName}" id="${packageName}" class="label-checkbox" ${isChecked ? 'checked' : ''}>
-                <img src="${iconSourcePath}${pkg.icoUrl}" alt="" class="icon-image" loading="lazy" onerror="this.style.display='none'">
+                <img src="${iconSourcePath}${pkg.icon}" alt="" class="icon-image" loading="lazy" onerror="this.style.display='none'">
                 <span class="package-list-label-text">
                     <b>${pkg.name}</b> — ${pkg.description}
                 </span>
