@@ -15,7 +15,7 @@ const toastElement = document.getElementById('toast');
 // Constants
 const yamlFilePath = './data/packages_list.yaml';
 const wingetInstallCommand = `winget install --id `;
-const iconSourcePath = 'images/packageimages/';
+const iconSourcePath = 'images/icons/';
 
 let yamlData = null;
 let allPackages = [];
