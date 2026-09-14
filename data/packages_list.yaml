@@ -14,7 +14,7 @@ Microsoft.VisualStudioCode:
   name: Visual Studio Code
   icoUrl: vscode.1.65.2.png
   scope: machine
-  interactive: true
+  override: "/verysilent /suppressmsgboxes /tasks=!runCode,desktopicon,quicklaunchicon,addcontextmenufiles,addcontextmenufolders,associatewithfiles,addtopath"
   description: Advanced code editor with IntelliSense.
 GitHub.GitHubDesktop:
   name: GitHub Desktop
@@ -49,6 +49,7 @@ Valve.Steam:
   name: Steam
   icoUrl: steam.2.10.91.91221129.png
   description: Gaming platform.
+  override: '/S /D=D:\Steam'
 Microsoft.PowerToys:
   name: Microsoft PowerToys
   icoUrl: powertoys.0.81.1.png
