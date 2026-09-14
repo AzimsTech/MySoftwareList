@@ -66,6 +66,28 @@ body {
   color: white;
 }
 
+/* Stylized Scrollbar */
+html {
+  scrollbar-color: var(--accent) transparent;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-hover);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
 /* Header */
 .header {
   background: #234863;
