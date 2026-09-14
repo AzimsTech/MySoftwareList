@@ -69,38 +69,9 @@ body {
 /* Header */
 .header {
   background: #234863;
-  padding: 1rem 1.5rem;
-  position: relative;
-  z-index: 1;
-}
-
-/* Two squares positioned right where header meets body,
-   extending DOWN into the body's space by --notch-radius. */
-.header::before,
-.header::after {
-  content: '';
-  position: absolute;
-  top: 100%;
-  width: var(--notch-radius);
-  height: var(--notch-radius);
-}
-
-.header::before {
-  left: 0;
-  background: radial-gradient(
-    circle at bottom right,
-    var(--bg-primary) 0 var(--notch-radius),
-    #234863 var(--notch-radius) 100%
-  );
-}
-
-.header::after {
-  right: 0;
-  background: radial-gradient(
-    circle at bottom left,
-    var(--bg-primary) 0 var(--notch-radius),
-    #234863 var(--notch-radius) 100%
-  );
+  padding: 1rem 1.5rem 4rem;
+  position: sticky;
+  top: 0;
 }
 
 [data-theme="dark"] .header {
@@ -159,9 +130,12 @@ body {
 /* Main */
 .main {
   width: 100%;
+  margin-top: -3rem;
   padding: 1.25rem 1.5rem 2.5rem;
   background: var(--bg-primary);
   position: relative;
+  z-index: 2;
+  border-radius: 48px 48px 0 0;
 }
 
 /* Content Wrapper */
