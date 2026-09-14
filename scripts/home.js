@@ -161,7 +161,7 @@ function updateCommand() {
         let cmd = `winget install --id ${id}`;
         if (pkgScope) cmd += ` --scope ${pkgScope}`;
         if (isInteractive) cmd += ' -i';
-        if (override) cmd += ` --override "${override}"`;
+        if (override) cmd += ` --override '${override}'`;
         return cmd;
     });
 
@@ -235,7 +235,7 @@ function populatePackageList(packages) {
                 </button>
             </label>
             <div class="override-section" id="override-${packageName}">
-                <input type="text" class="override-input" id="override-input-${packageName}" placeholder="--override installer arguments" value="${savedState.override || ''}">
+                <input type="text" class="override-input" id="override-input-${packageName}" placeholder="--override installer arguments" value="${(savedState.override || '').replace(/"/g, '&quot;')}">
             </div>
         `;
 

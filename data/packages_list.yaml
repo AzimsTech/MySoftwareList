@@ -23,7 +23,8 @@ GitHub.GitHubDesktop:
 Git.Git:
   name: Git
   icoUrl: git.2.34.1.svg
-  interactive: true
+  interactive: false
+  override: '/SP- /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /COMPONENTS="ext,ext\shellhere,gitlfs,assoc,assoc_sh,windowsterminal" /o:EditorOption="VisualStudioCode" /o:BashTerminalOption="ConHost"'
   description: Version control for developers.
 Python.PythonInstallManager:
   name: Python Install Manager
