@@ -151,3 +151,7 @@ Google.PlatformTools:
   name: "ADB"
   icoUrl: "adb.34.0.1.20230514.png"
   description: Android Debug Bridge.
+aria2.aria2:
+  name: "aria2"
+  icoUrl: "aria2.svg"
+  description: Lightweight multi-protocol download utility.
