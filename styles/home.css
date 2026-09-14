@@ -343,6 +343,10 @@ body {
   position: relative;
 }
 
+.package-list-item:not(.expanded) .package-list-label {
+  padding: 0.25rem 0.625rem;
+}
+
 .package-list-label::before {
   content: '';
   position: absolute;
