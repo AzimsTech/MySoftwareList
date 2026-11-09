@@ -87,6 +87,10 @@ OO-Software.  :
   name: "O&O ShutUp10++"
   icon: shutup10.1.9.1438.png
   description: Block Windows tracking.
+WinsiderSS.SystemInformer:
+  name: "System Informer"
+  icon: systeminformer-128x128.png
+  description: System information tool.
 Microsoft.Sysinternals.Suite:
   name: "Sysinternals Suite"
   icon: sysinternals.2024.5.28.png
